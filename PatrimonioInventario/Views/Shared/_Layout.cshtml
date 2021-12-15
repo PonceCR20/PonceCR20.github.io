@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <script src="https://kit.fontawesome.com/89d2af710f.js" crossorigin="anonymous"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+
+    <style type="text/css">
+        a.nav-item {
+            color: white
+        }
+
+            a.nav-item:active {
+                color: white
+            }
+
+            a.nav-item:link {
+                color: white
+            }
+
+            a.nav-item:visited {
+                color: white
+            }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-md " style="background-color: #9d1d36;">
+        <div class="container-fluid">
+            <h5>
+                <a style="color:white" class="navbar-brand" href="@Url.Content("~/Inventario/Inicio")"><i class="fas fa-home"></i> INICIO</a>
+            </h5>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <h6>
+                        @Html.ActionLink("Agregar Registro", "Agregar", "Inventario", new { Area = "Registrar" }, new { @class = "nav-item nav-link" })
+                    </h6>
+                    <h6>
+                        @Html.ActionLink("Inventarios Eliminados", "Index", "Activos", new { Area = "Inventario" }, new { @class = "nav-item nav-link" })
+                    </h6>
+                    <h6>
+                        @Html.ActionLink("Inventario", "Index", "Activos", new { Area = "Inventario" }, new { @class = "nav-item nav-link" })
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br />
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,158 @@
+﻿@model List<PatrimonioInventario.Models.Inventario>
+@{
+    ViewBag.Title = "Inicio";
+}
+
+<br />
+<div style="text-align:right; padding:5px;">
+    <a href="~/Inventario/Agregar" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo Registro</a>
+</div>
+
+<hr />
+<h3>Filtros de búsqueda</h3>
+<br />
+
+
+
+@using (Html.BeginForm("Inicio", "Inventario", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-4 form-horizontal">
+            <span>Filtrar Estado:</span>
+            <select class="form-control" name="Ubicacion">
+                <option value="99">Seleccionar Filtro de Ubicación</option>
+                <option value="1">Palmas</option>
+                <option value="2">Juarez</option>
+                <option value="3">Soleado</option>
+                <option value="4">Cañada</option>
+            </select>
+        </div>
+
+        <div class="col-md-4 form-horizontal">
+            <br />
+            <div>
+                <input value="Buscar" class="btn btn-secondary" type="submit" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<hr />
+
+<h2 style="color: red">Inventario</h2>
+
+<div style="text-align:center; width: 100%" class="row">
+    <br />
+
+    <table class="table table-striped" id="MyTable" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>IMAGEN</th>
+                <th>FECHA DE CREACIÓN</th>
+                <th>NÚMERO DE CONTROL</th>
+                <th>MARCA</th>
+                <th>MODELO</th>
+                <th>NO. SERIE</th>
+                <th>DESCRIPCIÓN</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+
+                //if (Model.Count() > 0)
+                //{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>
+                            <div style="width: 10rem;">
+                                <img src="@Html.DisplayFor(modelItem => item.Imagen)" />
+                            </div>
+                        </td>
+                        <td>@item.Creado</td>
+                        <td>@item.NoControl</td>
+                        <td>@item.Marca</td>
+                        <td>@item.Modelo</td>
+                        <td>@item.Serie</td>
+                        <td>@item.Descripcion</td>
+
+                        <td class="row">
+                            <a href="@Url.Action("Agregar", new { item.Id, item.NoControl, item.Descripcion, item.Marca, item.Modelo, item.Serie, item.Resguardante, item.Color, item.Placas, item.Observaciones})" class="btn btn-success">
+                                <i class="fa fa-pencil fa-fw"></i> Actualizar
+                            </a>
+
+                            <a href="@Url.Action("Delete", new { item.Id })" class="Delete btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Eliminar</a>
+                            <a href="~/Inventario/Historial" class="btn btn-info"><i class="fa fa-archive"></i> Historial</a>
+                        </td>
+                    </tr>
+                }
+            }
+            @*else
+                {
+                    <tr style="text-align:center; background-color:lightblue">
+                        <td colspan="10">No Records Found</td>
+                    </tr>
+                }*@
+
+        </tbody>
+    </table>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).on("click", ".Delete", function (e) {
+            var link = $(this).attr("href");
+            e.preventDefault();
+
+            bootbox.confirm({
+                message: "¿Desea ocultar este registro?",
+                buttons: {
+                    cancel: {
+                        label: 'Cancelar',
+                        className: 'btn-default'
+                    },
+                    confirm: {
+                        label: 'Aceptar',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        document.location.href = link;
+                    }
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('#MyTable').DataTable({
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Expedientes",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Expedientes",
+                    "infoFiltered": "(Filtrado de _MAX_ total expedientes)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Expedientes",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar expediente:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+            });
+        });
+    </script>
+}

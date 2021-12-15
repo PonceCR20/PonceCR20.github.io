@@ -1,0 +1,134 @@
+﻿@model PatrimonioInventario.Models.Inventario
+
+@{
+    ViewBag.Title = "Agregar";
+}
+
+<h1>Registro de activo</h1>
+<h3 style="color: blue">Fotografía</h3>
+
+@using (Html.BeginForm("AddInventario", "Inventario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="col-md-4 form-horizontal">
+            <br />
+            <div id="display_image" class="card" style="width: 18rem;">
+                @*<img src="@Html.DisplayFor(modelItem => item.Image)" width="150px" height="120px"/>*@
+            </div>
+        </div>
+
+        <div class="col-md-4 form-horizontal">
+            <br />
+            @Html.TextBoxFor(model => model.NoControl,
+           new { @class = "form-control", placeholder = "CLAVE", autofocus = "autofocus" })
+            @Html.ValidationMessageFor(model => model.NoControl, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.TextBoxFor(model => model.Descripcion,
+            new { @class = "form-control", placeholder = "DESCRIPCIÓN" })
+            @Html.ValidationMessageFor(model => model.Descripcion, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.TextBoxFor(model => model.Marca,
+           new { @class = "form-control", placeholder = "MARCA" })
+            @Html.ValidationMessageFor(model => model.Marca, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.TextBoxFor(model => model.Modelo,
+            new { @class = "form-control", placeholder = "MODELO" })
+            @Html.ValidationMessageFor(model => model.Modelo, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.TextBoxFor(model => model.Serie,
+            new { @class = "form-control", placeholder = "NO. SERIE" })
+            @Html.ValidationMessageFor(model => model.Serie, null, new { @class = "text-danger" })
+
+        </div>
+
+        <div class="col-md-4 form-horizontal">
+            <br />
+            @Html.TextBoxFor(model => model.Resguardante,
+            new { @class = "form-control", placeholder = "RESGUARDANTE" })
+            @Html.ValidationMessageFor(model => model.Resguardante, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.TextBoxFor(model => model.Color,
+            new { @class = "form-control", placeholder = "COLOR" })
+            @Html.ValidationMessageFor(model => model.Color, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.TextBoxFor(model => model.Placas,
+            new { @class = "form-control", placeholder = "PLACAS" })
+            @Html.ValidationMessageFor(model => model.Placas, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.TextBoxFor(model => model.Observaciones,
+            new { @class = "form-control", placeholder = "OBSERVACIONES" })
+            @Html.ValidationMessageFor(model => model.Observaciones, null, new { @class = "text-danger" })
+
+            <br />
+            @Html.DropDownListFor(model => model.Ubicacion.UbicacionId, ViewBag.UbicacionList as SelectList, "SELECCIONAR UBICACIÓN", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Ubicacion.UbicacionId, null, new { @class = "text-danger" })
+
+        </div>
+
+        <div class="col-md-4">
+            <br />
+            <div class="form-group">
+                <input type="file" id="ImageFile" name="ImageFile" accept="image/png, image/jpg" required>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <br />
+            <input value="Guardar" class="btn btn-primary" type="submit" />
+        </div>
+
+        <div class="col-md-4">
+            <br />
+            <button class="btn btn-danger" type="reset">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#SecretariaAreaVM_SecretariaId").change(function () {
+                $.get("/Inventario/GetAreasList", { SecretariaId: $("#SecretariaAreaVM_SecretariaId").val() }, function (data) {
+                    $("#SecretariaAreaVM_AreaId").empty();
+                    $.each(data, function (index, row) {
+                        $("#SecretariaAreaVM_AreaId").append("<option value='" + row.AreaId + "'>" + row.TipoArea + "</option>")
+                    });
+                });
+            });
+        });
+
+        document.getElementById("ImageFile").onchange = function (e) {
+            // Creamos el objeto de la clase FileReader
+            let reader = new FileReader();
+
+            // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+            reader.readAsDataURL(e.target.files[0]);
+
+            // Le decimos que cuando este listo ejecute el código interno
+            reader.onload = function () {
+                let preview = document.getElementById('display_image'),
+                    image = document.createElement('img');
+
+                image.src = reader.result;
+
+                preview.innerHTML = '';
+                preview.append(image);
+            };
+        }
+    </script>
+}
